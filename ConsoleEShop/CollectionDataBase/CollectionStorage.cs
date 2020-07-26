@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ConsoleEShop.Users;
 
 namespace ConsoleEShop
 {
-    class Storage
+    class CollectionStorage
     {
-        private Storage() { }
-        private static Storage _instance = null;
+        private CollectionStorage() { }
+        private static CollectionStorage _instance = null;
         public int UserCount { get; set; } = 5;
         public int ProductCount { get; set; } = 13;
 
-        public static Storage GetInstance()
+        public static CollectionStorage GetInstance()
         {
             if (_instance != null) return _instance;
-            _instance = new Storage();
+            _instance = new CollectionStorage();
             return _instance;
         }
         public List<Product> Products { get; set; } = new List<Product>()
@@ -37,11 +38,11 @@ namespace ConsoleEShop
 
         public List<User> Users { get; set; } = new List<User>()
         {
-            new Administrator("admin", 1),
-            new RegisteredUser("vasya2002", 2),
-            new RegisteredUser("Alex_1", 3),
-            new RegisteredUser("Dimas33", 4),
-            new RegisteredUser("GPlayer", 5)
+            new User("admin", UserType.Admin, 1),
+            new User("vasya2002", UserType.User, 2),
+            new User("Alex_1", UserType.User, 3),
+            new User("Dimas33", UserType.User, 4),
+            new User("GPlayer", UserType.User, 5)
         };
         
 

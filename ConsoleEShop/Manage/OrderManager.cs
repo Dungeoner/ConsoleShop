@@ -4,9 +4,9 @@ using System.Text;
 
 namespace ConsoleEShop
 {
-    class OrderManage
+    class OrderManager
     {
-        public OrderManage(IDataBase database)
+        public OrderManager(IDataBase database)
         {
             _dataBase = database;
         }

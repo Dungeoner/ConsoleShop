@@ -3,62 +3,63 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using ConsoleEShop.Users;
 
 namespace ConsoleEShop
 {
-    class Database : IDataBase
+    class CollectionDataBase : IDataBase
     {
         
         public List<User> GetUserList()
         {
-            return Storage.GetInstance().Users;
+            return CollectionStorage.GetInstance().Users;
         }
 
         public List<Product> GetProductList()
         {
-            return Storage.GetInstance().Products;
+            return CollectionStorage.GetInstance().Products;
         }
 
         public List<Order> GetOrderList()
         {
-            return Storage.GetInstance().OrderHistory;
+            return CollectionStorage.GetInstance().OrderHistory;
         }
 
         public void AddProduct(Product product)
         {
-            Storage.GetInstance().Products.Add(product);
+            CollectionStorage.GetInstance().Products.Add(product);
         }
 
         public void AddUser(string userName)
         {
-            Storage.GetInstance().Users.Add(new RegisteredUser(userName, Storage.GetInstance().UserCount++));
+            CollectionStorage.GetInstance().Users.Add(new User(userName, UserType.User, CollectionStorage.GetInstance().UserCount++));
         }
 
         public void AddOrder(Order order)
         {
-            Storage.GetInstance().OrderHistory.Add(order);
+            CollectionStorage.GetInstance().OrderHistory.Add(order);
         }
 
         public bool RemoveUser(string userName)
         {
             var user = FindUser(userName);
-            return user != null && Storage.GetInstance().Users.Remove(user);
+            return user != null && CollectionStorage.GetInstance().Users.Remove(user);
 
         }
         public bool RemoveProduct(string productName)
         {
             var product = FindProduct(productName);
-            return product != null && Storage.GetInstance().Products.Remove(product);
+            return product != null && CollectionStorage.GetInstance().Products.Remove(product);
         }
 
         public User FindUser(string userName)
         {
-            return Storage.GetInstance().Users.Find(x => x.UserName == userName);
+            return CollectionStorage.GetInstance().Users.Find(x => x.UserName == userName);
         }
 
         public Product FindProduct(string productName)
         {
-            return Storage.GetInstance().Products.Find(x => x.ProductName == productName);
+            return CollectionStorage.GetInstance().Products.Find(x => x.ProductName == productName);
         }
 
         

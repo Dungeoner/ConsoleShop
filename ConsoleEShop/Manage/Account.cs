@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using ConsoleEShop.Users;
 
 namespace ConsoleEShop
 {
@@ -20,18 +21,18 @@ namespace ConsoleEShop
             return user ?? throw new ArgumentException("Wrong username");
         }
 
-        public RegisteredUser Register()
+        public User Register()
         {
             Console.WriteLine("Enter your username");
             var userName = Console.ReadLine();
             if(_dataBase.FindUser(userName) != null) throw new ArgumentException("Username already exist");
             _dataBase.AddUser(userName);
-            return (RegisteredUser)_dataBase.FindUser(userName);
+            return (User)_dataBase.FindUser(userName);
         }
 
-        public Guest Loguot()
+        public User Loguot()
         {
-            return new Guest("Guest", 0);
+            return new User("Guest", UserType.Guest, 0 );
         }
     }
 }

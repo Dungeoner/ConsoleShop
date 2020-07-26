@@ -5,9 +5,9 @@ using System.Text;
 
 namespace ConsoleEShop
 {
-    class ProductManage
+    class ProductManager
     {
-        public ProductManage(IDataBase dataBase)
+        public ProductManager(IDataBase dataBase)
         {
             _dataBase = dataBase;
         }

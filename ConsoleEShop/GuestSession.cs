@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ConsoleEShop.Users;
 
 namespace ConsoleEShop
 {
@@ -8,7 +9,7 @@ namespace ConsoleEShop
     {
         public GuestSession(IDataBase dataBase)
         {
-            user = new Guest("Guest", 0);
+            user = new User("Guest", UserType.Guest, 0);
             _dataBase = dataBase;
 
         }
@@ -23,14 +24,14 @@ namespace ConsoleEShop
             {
                 case 1:
                 {
-                    var productManage = new ProductManage(_dataBase);
+                    var productManage = new ProductManager(_dataBase);
                     productManage.ProductView();
                     break;
                 }
 
                 case 2:
                 {
-                    var productManage = new ProductManage(_dataBase);
+                    var productManage = new ProductManager(_dataBase);
                     var i = 1;
                     Console.WriteLine("Enter name of product");
                     foreach (var product in productManage.Search(Console.ReadLine()))

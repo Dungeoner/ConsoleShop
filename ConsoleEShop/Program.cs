@@ -8,7 +8,7 @@ namespace ConsoleEShop
         {
 
             Console.WriteLine("Hello User!");
-            var database = new Database();
+            var database = new CollectionDataBase();
             var sessionFactory = new SessionFactory();
             var session = sessionFactory.Selection(database);
         }
