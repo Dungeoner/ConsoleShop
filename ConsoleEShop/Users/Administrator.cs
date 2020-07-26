@@ -4,9 +4,9 @@ using System.Text;
 
 namespace ConsoleEShop
 {
-    class Admin : User
+    class Administrator : User
     {
-        public Admin(string userName, int id) : base(userName, id)
+        public Administrator(string userName, int id) : base(userName, id)
         {
         }
     }

@@ -18,6 +18,11 @@ namespace ConsoleEShop
         public int Price { get; set; }
         public string Description { get; set; }
         public ProductCategory Category { get; set; }
+
+        public override string ToString()
+        {
+            return $"{ProductName}, {Price}, {Category}, {Description}";
+        }
     }
 
 }

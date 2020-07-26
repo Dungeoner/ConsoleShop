@@ -5,13 +5,14 @@ using System.Text;
 namespace ConsoleEShop
 {
     public enum OrderStatus
-    {
-        New,
-        Finished,
-        CanceledByAdmin,
-        CanceledByUser,
-        PaymentReceived,
-        Received
-    }
+        {
+            New,
+            Finished,
+            CanceledByAdmin,
+            CanceledByUser,
+            PaymentReceived,
+            Received
 
+        }
+    
 }

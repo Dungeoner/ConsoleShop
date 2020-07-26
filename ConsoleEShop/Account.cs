@@ -5,9 +5,9 @@ using System.Threading;
 
 namespace ConsoleEShop
 {
-    class Session
+    class Account
     {
-        public Session(IDataBase dataBase)
+        public Account(IDataBase dataBase)
         {
             _dataBase = dataBase;
         }
@@ -20,13 +20,13 @@ namespace ConsoleEShop
             return user ?? throw new ArgumentException("Wrong username");
         }
 
-        public User Register()
+        public RegisteredUser Register()
         {
             Console.WriteLine("Enter your username");
             var userName = Console.ReadLine();
             if(_dataBase.FindUser(userName) != null) throw new ArgumentException("Username already exist");
             _dataBase.AddUser(userName);
-            return _dataBase.FindUser(userName);
+            return (RegisteredUser)_dataBase.FindUser(userName);
         }
 
         public Guest Loguot()

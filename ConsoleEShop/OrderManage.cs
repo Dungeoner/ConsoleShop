@@ -8,7 +8,7 @@ namespace ConsoleEShop
     {
         public OrderManage(IDataBase database)
         {
-
+            _dataBase = database;
         }
 
         private IDataBase _dataBase;
@@ -28,7 +28,7 @@ namespace ConsoleEShop
             OrderHistory(user).Find(x => x == order).Status = OrderStatus.CanceledByUser;
         }
 
-        public void ChangeStatus(Order order, Admin admin, OrderStatus orderStatus)
+        public void ChangeStatus(Order order, Administrator admin, OrderStatus orderStatus)
         {
             if(order == null) throw new ArgumentNullException(nameof(order));
             _dataBase.GetOrderList().Find(x => x == order).Status = orderStatus;

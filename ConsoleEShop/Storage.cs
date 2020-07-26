@@ -37,7 +37,7 @@ namespace ConsoleEShop
 
         public List<User> Users { get; set; } = new List<User>()
         {
-            new Admin("admin", 1),
+            new Administrator("admin", 1),
             new RegisteredUser("vasya2002", 2),
             new RegisteredUser("Alex_1", 3),
             new RegisteredUser("Dimas33", 4),
