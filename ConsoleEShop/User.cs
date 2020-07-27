@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ConsoleEShop.Users;
+using ConsoleEShop.Enums;
 
 namespace ConsoleEShop
 {
-    class User
+    public class User
     {
-
+        public User()
+        {
+            UserName = "Guest";
+            Type = UserType.Guest;
+            Id = 0;
+        }
         public User(string userName, UserType type, int id)
         {
             UserName = userName;

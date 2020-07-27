@@ -14,6 +14,7 @@ namespace ConsoleEShop
 
         private readonly IDataBase _dataBase;
 
+       
         public void ProductView()
         {
             var i = 1;
@@ -29,9 +30,19 @@ namespace ConsoleEShop
             _dataBase.AddProduct(product);
         }
 
-        public List<Product> Search(string productName)
+        public void Search()
         {
-            return (List<Product>) _dataBase.GetProductList().Where(x => x.ProductName.Contains(productName));
+            Console.WriteLine("Enter product name");
+            foreach (var itemProduct in _dataBase.GetProductList().Where(x => x.ProductName.Contains(Console.ReadLine() ?? throw new InvalidOperationException())))
+            {
+                Console.WriteLine(itemProduct);
+            }
+
+            foreach (var product in _dataBase.GetProductList().Where(x => x.ProductName.Contains(Console.ReadLine() ?? throw new InvalidOperationException())))
+            {
+                Console.WriteLine(product);
+            }
+
         }
 
 

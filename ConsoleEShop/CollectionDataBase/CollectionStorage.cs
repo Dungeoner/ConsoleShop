@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ConsoleEShop.Users;
+using ConsoleEShop.Enums;
 
 namespace ConsoleEShop
 {
-    class CollectionStorage
+    public class CollectionStorage
     {
         private CollectionStorage() { }
         private static CollectionStorage _instance = null;

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ConsoleEShop.Enums;
 
 namespace ConsoleEShop
 {
-    class Order
+     public class Order
     {
         public Order(Product product, int userId)
         {

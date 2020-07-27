@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ConsoleEShop
+﻿namespace ConsoleEShop.Enums
 {
     public enum ProductCategory
     {

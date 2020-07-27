@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ConsoleEShop.Enums;
 
 namespace ConsoleEShop
 {
@@ -11,7 +12,8 @@ namespace ConsoleEShop
             _dataBase = database;
         }
 
-        private IDataBase _dataBase;
+        private readonly IDataBase _dataBase;
+
         public void Create(User user, Product product)
         {
             _dataBase.AddOrder(new Order(product, user.Id));
@@ -28,7 +30,7 @@ namespace ConsoleEShop
             OrderHistory(user).Find(x => x == order).Status = OrderStatus.CanceledByUser;
         }
 
-        public void ChangeStatus(Order order, Administrator admin, OrderStatus orderStatus)
+        public void ChangeStatus(Order order, OrderStatus orderStatus)
         {
             if(order == null) throw new ArgumentNullException(nameof(order));
             _dataBase.GetOrderList().Find(x => x == order).Status = orderStatus;

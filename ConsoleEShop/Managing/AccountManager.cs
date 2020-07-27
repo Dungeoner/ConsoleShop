@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-using ConsoleEShop.Users;
+using ConsoleEShop.Enums;
 
 namespace ConsoleEShop
 {
-    class Account
+    class AccountManager
     {
-        public Account(IDataBase dataBase)
+        public AccountManager(IDataBase dataBase)
         {
             _dataBase = dataBase;
         }
+        
+        private readonly IDataBase _dataBase;
 
-        private IDataBase _dataBase; 
+
         public User Login()
         {
             Console.WriteLine("Enter your username");

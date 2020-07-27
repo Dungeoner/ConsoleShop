@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using ConsoleEShop.Users;
+using ConsoleEShop.Enums;
 
 namespace ConsoleEShop
 {
-    class CollectionDataBase : IDataBase
+    public class CollectionDataBase : IDataBase
     {
         
         public List<User> GetUserList()

@@ -1,4 +1,5 @@
 ﻿using System;
+using ConsoleEShop.Enums;
 
 namespace ConsoleEShop
 {
@@ -6,11 +7,10 @@ namespace ConsoleEShop
     {
         static void Main(string[] args)
         {
-
-            Console.WriteLine("Hello User!");
+            Console.WriteLine("Hello customer!");
             var database = new CollectionDataBase();
-            var sessionFactory = new SessionFactory();
-            var session = sessionFactory.Selection(database);
+            var shopWork = new ShopWork(database);
+            shopWork.Start();
         }
     }
 }

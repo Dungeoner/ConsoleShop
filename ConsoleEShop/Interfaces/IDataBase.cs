@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ConsoleEShop
 {
-    interface IDataBase
+    public interface IDataBase
     {
         List<User> GetUserList();
         List<Product> GetProductList();

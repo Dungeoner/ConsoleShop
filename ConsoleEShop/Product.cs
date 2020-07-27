@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ConsoleEShop.Enums;
 
 namespace ConsoleEShop
 {
-    class Product
+    public class Product
     {
         public Product(string productName, int price, ProductCategory category, string description)
         {
