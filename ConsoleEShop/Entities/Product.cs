@@ -7,14 +7,16 @@ namespace ConsoleEShop
 {
     public class Product
     {
-        public Product(string productName, int price, ProductCategory category, string description)
+        public Product(int id, string productName, int price, ProductCategory category, string description)
         {
+            Id = id;
             Category = category;
             Price = price;
             Description = description;
             ProductName = productName;
         }
 
+        public int Id { get; set; }
         public string ProductName { get; set; }
         public int Price { get; set; }
         public string Description { get; set; }

@@ -9,8 +9,8 @@ namespace ConsoleEShop
         {
             Console.WriteLine("Hello customer!");
             var database = new CollectionDataBase();
-            var shopWork = new ShopWork(database);
-            shopWork.Start();
+            var consoleUi = new ConsoleUI(database);
+            consoleUi.Start();
         }
     }
 }

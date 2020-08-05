@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ConsoleEShop.Enums;
 
 namespace ConsoleEShop
 {
@@ -9,11 +10,9 @@ namespace ConsoleEShop
         List<User> GetUserList();
         List<Product> GetProductList();
         List<Order> GetOrderList();
-        void AddProduct(Product product);
+        void AddProduct(string productName, int price, ProductCategory category, string description);
         void AddUser(string userName);
-        void AddOrder(Order order);
-        bool RemoveUser(string userName);
-        bool RemoveProduct(string productName);
+        void AddOrder(Product product, int userId);
         User FindUser(string userName);
         Product FindProduct(string productName);
 

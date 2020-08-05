@@ -7,12 +7,6 @@ namespace ConsoleEShop
 {
     public class User
     {
-        public User()
-        {
-            UserName = "Guest";
-            Type = UserType.Guest;
-            Id = 0;
-        }
         public User(string userName, UserType type, int id)
         {
             UserName = userName;
@@ -22,6 +16,9 @@ namespace ConsoleEShop
         public string UserName { get; set; }
         public UserType Type { get; set; }
         public int Id { get; set; }
-
+        public override string ToString()
+        {
+            return $"{UserName} {Type} {Id}";
+        }
     }
 }
