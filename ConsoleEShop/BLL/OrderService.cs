@@ -1,23 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ConsoleEShop.Enums;
+using System.Linq;
+using ConsoleEShop.DAL;
+using ConsoleEShop.DAL.Entities;
+using ConsoleEShop.DAL.Entities.Enums;
+using ConsoleEShop.DAL.Interfaces;
 
-namespace ConsoleEShop
+namespace ConsoleEShop.BLL
 {
-    class OrderManager
+    public class OrderService : Iservice
     {
-        public OrderManager(IDataBase database)
+        public OrderService(CollectionUnitOfWork unitOfWork)
         {
-            _dataBase = database;
+            _repository = unitOfWork.Orders;
         }
 
-        private readonly IDataBase _dataBase;
+        private readonly IRepository<Order> _repository;
+        private readonly IRepository<Product> _productRepository;
 
         public void Create(User user)
         {
             Console.WriteLine("Enter product name:");
-            var product = _dataBase.FindProduct(Console.ReadLine());
+            var product = _productRepository.GetItem(Console.ReadLine());
             var b = false;
             do
             {
@@ -26,7 +29,7 @@ namespace ConsoleEShop
                 switch (res.ToLower())
                 {
                     case "yes":
-                        _dataBase.AddOrder(product, user.Id);
+                        _repository.AddItem(new Order(product, user.Id, _repository.GetItemList().Count()));
                         break;
                     case "no":
                         b = true;
@@ -39,7 +42,7 @@ namespace ConsoleEShop
 
         public void OrderHistory(User user)
         {
-            var result = _dataBase.GetOrderList().FindAll(x => x.UserId == user.Id);
+            var result = _repository.GetItemList().Where(x => x.UserId == user.Id);
             var i = 1;
             foreach (var order in result)
             {
@@ -52,7 +55,7 @@ namespace ConsoleEShop
         public void ChangeStatus(User user)
         {
             Console.WriteLine("Enter order id:");
-            var order = _dataBase.GetOrderList().Find(x => x.OrderId == Convert.ToInt32(Console.ReadLine()));
+            var order = _repository.GetItemList().First(x => x.OrderId == Convert.ToInt32(Console.ReadLine()));
             if (user.Type == UserType.User)
             {
                 var b = false;
@@ -63,7 +66,7 @@ namespace ConsoleEShop
                     switch (res.ToLower())
                     {
                         case "yes":
-                            _dataBase.GetOrderList().Find(x => x == order).Status = OrderStatus.CanceledByUser;
+                            order.Status = OrderStatus.CanceledByUser;
                             break;
                         case "no":
                             b = true;
@@ -101,7 +104,7 @@ namespace ConsoleEShop
                     switch (res.ToLower())
                     {
                         case "yes":
-                            _dataBase.GetOrderList().Find(x => x == order).Status = orderStatus;
+                            order.Status = orderStatus;
                             break;
                         case "no":
                             b = true;

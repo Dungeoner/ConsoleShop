@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ConsoleEShop.Enums;
+﻿using ConsoleEShop.DAL.Entities.Enums;
 
-namespace ConsoleEShop
+namespace ConsoleEShop.DAL.Entities
 {
      public class Order
     {

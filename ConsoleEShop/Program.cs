@@ -1,5 +1,6 @@
 ﻿using System;
-using ConsoleEShop.Enums;
+using ConsoleEShop.DAL;
+using ConsoleEShop.PL;
 
 namespace ConsoleEShop
 {
@@ -8,8 +9,7 @@ namespace ConsoleEShop
         static void Main(string[] args)
         {
             Console.WriteLine("Hello customer!");
-            var database = new CollectionDataBase();
-            var consoleUi = new ConsoleUI(database);
+            var consoleUi = new ConsoleUi();
             consoleUi.Start();
         }
     }

@@ -1,9 +1,11 @@
 using NUnit.Framework;
+using Moq;
 
 namespace ConsoleEShop.Tests
 {
     public class Tests
     {
+
         [SetUp]
         public void Setup()
         {

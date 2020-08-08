@@ -1,37 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading;
-using System.Threading.Channels;
-using ConsoleEShop.Enums;
+using System.Linq;
+using ConsoleEShop.DAL;
+using ConsoleEShop.DAL.Entities;
+using ConsoleEShop.DAL.Entities.Enums;
+using ConsoleEShop.DAL.Interfaces;
 
-namespace ConsoleEShop
+namespace ConsoleEShop.BLL
 {
-    class AccountManager
+    public class AccountService : Iservice
     {
-        public AccountManager(IDataBase dataBase)
+        public AccountService(CollectionUnitOfWork unitOfWork)
         {
-            _dataBase = dataBase;
+            _repository = unitOfWork.Users;
         }
         
-        private readonly IDataBase _dataBase;
+        private readonly IRepository<User> _repository;
 
 
         public User Login()
         {
-            Console.WriteLine("Enter your username");
-            var user = _dataBase.FindUser(Console.ReadLine());
-             return user ?? throw new ArgumentException("Wrong username");
+            var user = _repository.GetItem(Console.ReadLine());
+            return user ?? throw new ArgumentException("Wrong username");
         }
 
         public User Register()
         {
             Console.WriteLine("Enter your username");
             var userName = Console.ReadLine();
-            if(_dataBase.FindUser(userName) != null) throw new ArgumentException("Username already exist");
-            _dataBase.AddUser(userName);
-            return (User)_dataBase.FindUser(userName);
+            if(_repository.GetItem(userName) != null) throw new ArgumentException("Username already exist");
+            _repository.AddItem(new User(userName, UserType.User, _repository.GetItemList().Count()));
+            return _repository.GetItem(userName);
         }
 
         public void ChangeData(User user)
@@ -46,7 +44,7 @@ namespace ConsoleEShop
             {
                 Console.WriteLine("Enter user's name: ");
                 var userName = Console.ReadLine() ?? throw new ArgumentException("Username can't be empty");
-                var targetUser = _dataBase.FindUser(userName);
+                var targetUser = _repository.GetItem(userName);
                 Console.WriteLine("Enter new username: ");
                 var newUserName = Console.ReadLine() ?? throw new ArgumentException("Username can't be empty");
                 targetUser.UserName = newUserName;
@@ -55,7 +53,7 @@ namespace ConsoleEShop
 
         public void ViewUserData()
         {
-            var result = _dataBase.GetUserList();
+            var result = _repository.GetItemList();
             foreach (var user in result)
             {
                 Console.WriteLine(user);

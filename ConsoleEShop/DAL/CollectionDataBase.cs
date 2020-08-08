@@ -1,60 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using ConsoleEShop.Enums;
+﻿using System.Collections.Generic;
+using ConsoleEShop.DAL.Entities;
+using ConsoleEShop.DAL.Entities.Enums;
 
-namespace ConsoleEShop
+namespace ConsoleEShop.DAL
 {
-    public class CollectionDataBase : IDataBase
+    public class CollectionDataBase
     {
-        private readonly CollectionStorage _cdb;
-
-        public CollectionDataBase()
+        public List<Product> Products { get;} = new List<Product>
         {
-            _cdb = new CollectionStorage();
-        }
+            new Product(1,"Stratocaster", 20000, ProductCategory.ElectricGuitar, "Fender"),
+            new Product(2,"Explorer", 20000, ProductCategory.ElectricGuitar, "Gibson"),
+            new Product(3,"Flying V", 20000, ProductCategory.ElectricGuitar, "Gibson"),
+            new Product(4,"Les Paul", 20000, ProductCategory.ElectricGuitar, "Gibson"),
+            new Product(5,"Snakebite", 20000, ProductCategory.ElectricGuitar, "ESP"),
+            new Product(6,"Viper", 20000, ProductCategory.ElectricGuitar, "ESP"),
+            new Product(7,"Streamer", 20000, ProductCategory.Base, "Warwick"),
+            new Product(8,"Corvette", 20000, ProductCategory.Base, "Warwick"),
+            new Product(9,"4003", 20000, ProductCategory.Base, "Rickenbacker"),
+            new Product(10,"FG800", 20000, ProductCategory.AcousticGuitar, "Yamaha"),
+            new Product(11,"LS-TA", 20000, ProductCategory.AcousticGuitar, "Yamaha"),
+            new Product(12,"GPC-15", 20000, ProductCategory.AcousticGuitar, "Martin"),
+            new Product(13,"SLG-200", 20000, ProductCategory.AcousticGuitar, "Yamaha")
 
-        public List<User> GetUserList()
+        };
+
+        public List<User> Users { get;} = new List<User>
         {
-            return _cdb.Users;
-        }
+            new User("admin", UserType.Admin, 1),
+            new User("vasya2002", UserType.User, 2),
+            new User("Alex_1", UserType.User, 3),
+            new User("Dimas33", UserType.User, 4),
+            new User("GPlayer", UserType.User, 5)
+        };
 
-        public List<Product> GetProductList()
-        {
-            return _cdb.Products;
-        }
-
-        public List<Order> GetOrderList()
-        {
-            return _cdb.OrderHistory;
-        }
-
-        public void AddProduct(string productName, int price, ProductCategory category, string description)
-        {
-            _cdb.Products.Add(new Product(_cdb.ProductCount++, productName, price, category, description));
-        }
-
-        public void AddUser(string userName)
-        {
-            _cdb.Users.Add(new User(userName, UserType.User, _cdb.UserCount++));
-        }
-
-        public void AddOrder(Product product, int userId)
-        {
-            _cdb.OrderHistory.Add(new Order(product, userId, _cdb.OrderCount++ ));
-        }
-
-        public User FindUser(string userName)
-        {
-            return _cdb.Users.Find(x => x.UserName == userName);
-        }
-
-        public Product FindProduct(string productName)
-        {
-            return _cdb.Products.Find(x => x.ProductName == productName);
-        }
-
+        public List<Order> OrderHistory { get;} = new List<Order>();
     }
 }

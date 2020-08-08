@@ -1,25 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ConsoleEShop.Enums;
+using ConsoleEShop.DAL;
+using ConsoleEShop.DAL.Entities;
+using ConsoleEShop.DAL.Entities.Enums;
+using ConsoleEShop.DAL.Interfaces;
 
-namespace ConsoleEShop
+namespace ConsoleEShop.BLL
 {
-    class ProductManager
+    public class ProductService : Iservice
     {
-        public ProductManager(IDataBase dataBase)
+        public ProductService(CollectionUnitOfWork unitOfWork)
         {
-            _dataBase = dataBase;
+            _repository = unitOfWork.Products;
         }
 
-        private readonly IDataBase _dataBase;
+        private readonly IRepository<Product> _repository;
 
        
         public void ProductView()
         {
             var i = 1;
-            foreach (var product in _dataBase.GetProductList())
+            foreach (var product in _repository.GetItemList())
             {
                 Console.WriteLine($"{i}. {product}");
                 i++;
@@ -31,7 +32,7 @@ namespace ConsoleEShop
             Console.WriteLine("Enter product name:");
             var productName = Console.ReadLine() ?? throw new ArgumentNullException();
             Console.WriteLine("Enter price:");
-            int price = Convert.ToInt32(Console.ReadLine() ?? throw new ArgumentNullException());
+            var price = Convert.ToInt32(Console.ReadLine() ?? throw new ArgumentNullException());
             Console.WriteLine("Choose category: \n\t 1 AcousticGuitar \n\t 2 Base \n\t ElectricGuitar");
             ProductCategory category;
             switch (Console.ReadLine() ?? throw new ArgumentNullException())
@@ -49,17 +50,17 @@ namespace ConsoleEShop
             }
             Console.WriteLine("Enter description:");
             var description = Console.ReadLine() ?? throw new ArgumentNullException();
-            _dataBase.AddProduct(productName, price, category, description);
+            _repository.AddItem(new Product(_repository.GetItemList().Count(), productName, price, category, description));
         }
 
         public void ChangeProductData()
         {
             Console.WriteLine("Enter product name:");
-            var product = _dataBase.FindProduct(Console.ReadLine());
+            var product = _repository.GetItem(Console.ReadLine());
             Console.WriteLine("Enter product name:");
             var productName = Console.ReadLine() ?? throw new ArgumentNullException();
             Console.WriteLine("Enter price:");
-            int price = Convert.ToInt32(Console.ReadLine() ?? throw new ArgumentNullException());
+            var price = Convert.ToInt32(Console.ReadLine() ?? throw new ArgumentNullException());
             Console.WriteLine("Choose category: \n\t 1 AcousticGuitar \n\t 2 Base \n\t 3 ElectricGuitar");
             ProductCategory category;
             switch (Console.ReadLine() ?? throw new ArgumentNullException())
@@ -89,7 +90,7 @@ namespace ConsoleEShop
         {
             Console.WriteLine("Enter product name");
             var pn = Console.ReadLine() ?? throw new InvalidOperationException();
-            var result = _dataBase.GetProductList().Where(x =>
+            var result = _repository.GetItemList().Where(x =>
                 x.ProductName.Contains(pn));
             foreach (var product in result)
             {    
