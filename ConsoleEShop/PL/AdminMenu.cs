@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using System.Text;
 using ConsoleEShop.BLL;
 using ConsoleEShop.DAL.Entities;
+using ConsoleEShop.PL.Controllers;
+using ConsoleEShop.PL.Management;
 
 namespace ConsoleEShop.PL
 {
     class AdminMenu
     {
-        private Menu _menu;
-        private readonly ServiceUnitOfWork _services;
+        private readonly Menu _menu;
+        private readonly ControllerUOF _manager;
         private readonly User _user;
 
-        public AdminMenu(Menu menu, ServiceUnitOfWork services, User user)
+        public AdminMenu(Menu menu, ControllerUOF manager, User user)
         {
             _menu = menu;
-            _services = services;
+            _manager = manager;
             _user = user;
         }
 
@@ -28,39 +30,85 @@ namespace ConsoleEShop.PL
             switch (Console.ReadLine())
             {
                 case "1":
-                    _services.ProductService.ProductView();
-                    _menu.Invoke(2);
+                    _manager.ProductManager.ProductView();
+                    _menu.Invoke(_user);
                     break;
                 case "2":
-                    _services.ProductService.Search();
-                    _menu.Invoke(2);
+                    try
+                    {
+                        _manager.ProductManager.Search();
+                    }
+                    catch (UserInputException e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                    _menu.Invoke(_user);
                     break;
                 case "3":
-                    _services.OrderService.Create(_user);
-                    _menu.Invoke(2);
+                    try
+                    {
+                        _manager.OrderManager.Create(_user);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                    _menu.Invoke(_user);
                     break;
                 case "4":
-                    _services.OrderService.OrderHistory(_user);
-                    _menu.Invoke(2);
+                    _manager.OrderManager.OrderHistory(_user);
+                    _menu.Invoke(_user);
                     break;
                 case "5":
-                    _services.OrderService.ChangeStatus(_user);
-                    _menu.Invoke(2);
+                    try
+                    {
+                        _manager.OrderManager.ChangeStatus(_user);
+                    }
+                    catch (UserInputException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        throw;
+                    }
+                    _menu.Invoke(_user);
                     break;
                 case "6":
-                    _services.AccountService.ViewUserData();
-                    _menu.Invoke(2);
+                    _manager.AccountManager.ViewUserData();
+                    _menu.Invoke(_user);
                     break;
                 case "7":
-                    _services.AccountService.ChangeData(_user);
-                    _menu.Invoke(2);
+                    try
+                    {
+                        _manager.AccountManager.ChangeData(_user);
+                    }
+                    catch (UserInputException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        throw;
+                    }
+                    _menu.Invoke(_user);
                     break;
                 case "8":
-                    _services.ProductService.AddProduct();
-                    _menu.Invoke(2);
+                    try
+                    {
+                       _manager.ProductManager.AddProduct();
+                    }
+                    catch (UserInputException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        throw;
+                    }
+                    _menu.Invoke(_user);
                     break;
                 case "9":
-                    _services.ProductService.ChangeProductData();
+                    try
+                    {
+                        _manager.ProductManager.ChangeProductData();
+                    }
+                    catch (UserInputException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        throw;
+                    }
                     _menu.Invoke();
                     break;
                 case "10":

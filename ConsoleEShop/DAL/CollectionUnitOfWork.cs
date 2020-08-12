@@ -7,20 +7,19 @@ using ConsoleEShop.DAL.Repositories;
 
 namespace ConsoleEShop.DAL
 {
-    public class CollectionUnitOfWork
+    public class CollectionUnitOfWork : IRepositoryUnitOfWork
     {
-        private readonly CollectionDataBase _cdb;
+        private readonly IDataBase _cdb;
         private IRepository<Order> _orders;
         private IRepository<Product> _products;
         private IRepository<User> _users;
         public IRepository<Order> Orders => _orders ?? new OrderRepository(_cdb);
-
         public IRepository<Product> Products => _products ?? new ProductRepository(_cdb);
         public IRepository<User> Users => _users ?? new UserRepository(_cdb);
 
-        public CollectionUnitOfWork()
+        public CollectionUnitOfWork(IDataBase cdb)
         {
-            _cdb = new CollectionDataBase();
+            _cdb = cdb;
         }
     }
 }

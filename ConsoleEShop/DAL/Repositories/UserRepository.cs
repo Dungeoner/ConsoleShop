@@ -4,14 +4,20 @@ using ConsoleEShop.DAL.Interfaces;
 
 namespace ConsoleEShop.DAL.Repositories
 {
+    /// <summary>
+    /// Class used to work with users in Collection database
+    /// </summary>
     public class UserRepository : IRepository<User>
     {
-        private readonly CollectionDataBase _context;
+        private readonly IDataBase _context;
 
-        public UserRepository(CollectionDataBase context)
+        public UserRepository(IDataBase context)
         {
             _context = context;
+            ItemCount = _context.Users.Count;
         }
+
+        public int ItemCount { get; set; }
 
         public IEnumerable<User> GetItemList()
         {
@@ -26,11 +32,6 @@ namespace ConsoleEShop.DAL.Repositories
         public void AddItem(User item)
         {
             _context.Users.Add(item);
-        }
-
-        public void DeleteItem(User item)
-        {
-            _context.Users.Remove(item);
         }
     }
 }

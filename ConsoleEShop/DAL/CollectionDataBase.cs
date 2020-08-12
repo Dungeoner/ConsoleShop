@@ -1,11 +1,18 @@
 ﻿using System.Collections.Generic;
 using ConsoleEShop.DAL.Entities;
 using ConsoleEShop.DAL.Entities.Enums;
+using ConsoleEShop.DAL.Interfaces;
 
 namespace ConsoleEShop.DAL
-{
-    public class CollectionDataBase
+{   
+    /// <summary>
+    /// This class used for storage data in collections instead of database
+    /// </summary>
+    public class CollectionDataBase : IDataBase
     {
+        /// <summary>
+        /// List of products
+        /// </summary>
         public List<Product> Products { get;} = new List<Product>
         {
             new Product(1,"Stratocaster", 20000, ProductCategory.ElectricGuitar, "Fender"),
@@ -24,6 +31,9 @@ namespace ConsoleEShop.DAL
 
         };
 
+        /// <summary>
+        /// List of users
+        /// </summary>
         public List<User> Users { get;} = new List<User>
         {
             new User("admin", UserType.Admin, 1),
@@ -32,7 +42,9 @@ namespace ConsoleEShop.DAL
             new User("Dimas33", UserType.User, 4),
             new User("GPlayer", UserType.User, 5)
         };
-
+        /// <summary>
+        /// List of orders
+        /// </summary>
         public List<Order> OrderHistory { get;} = new List<Order>();
     }
 }

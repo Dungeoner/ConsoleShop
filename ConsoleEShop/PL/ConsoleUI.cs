@@ -4,22 +4,22 @@ using ConsoleEShop.BLL;
 using ConsoleEShop.DAL;
 using ConsoleEShop.DAL.Entities;
 using ConsoleEShop.DAL.Entities.Enums;
+using ConsoleEShop.PL.Controllers;
+using ConsoleEShop.PL.Management;
 
 namespace ConsoleEShop.PL
 
 {
-    public delegate void Menu(int i = 0);
+    public delegate void Menu(User user = null);
 
     public class ConsoleUi
     {
-        private readonly ServiceUnitOfWork _services;
+        private readonly ControllerUOF _services;
         private readonly Menu _menu;
-        private readonly User _user;
-
+        
         public ConsoleUi()
         {
-            _services = new ServiceUnitOfWork();
-            _user = null;
+            _services = new ControllerUOF(new CollectionDataBase());
             _menu = Menu;
         }
 
@@ -28,16 +28,16 @@ namespace ConsoleEShop.PL
             _menu.Invoke();
         }
 
-        private void Menu(int i = 0)
+        private void Menu(User user = null)
         {
-            switch (i)
+            switch (user?.Type)
             {
-                case 1:
-                    var userMenu = new UserMenu(_menu, _services, _user);
+                case UserType.User:
+                    var userMenu = new UserMenu(_menu, _services, user);
                     userMenu.Run();
                     break;
-                case 2:
-                    var adminMenu = new AdminMenu(_menu, _services, _user);
+                case UserType.Admin:
+                    var adminMenu = new AdminMenu(_menu, _services, user);
                     adminMenu.Run();
                     break;
                 default:

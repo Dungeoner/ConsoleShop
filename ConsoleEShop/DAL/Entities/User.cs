@@ -1,4 +1,5 @@
-﻿using ConsoleEShop.DAL.Entities.Enums;
+﻿using System.Collections.Generic;
+using ConsoleEShop.DAL.Entities.Enums;
 
 namespace ConsoleEShop.DAL.Entities
 {
@@ -13,9 +14,6 @@ namespace ConsoleEShop.DAL.Entities
         public string UserName { get; set; }
         public UserType Type { get; set; }
         public int Id { get; set; }
-        public override string ToString()
-        {
-            return $"{UserName} {Type} {Id}";
-        }
+        
     }
 }

@@ -4,7 +4,8 @@ using System.Text;
 
 namespace ConsoleEShop.BLL
 {
-    interface Iservice
+    class UserInputException : Exception
     {
+        public UserInputException(string message) : base(message) { }
     }
 }

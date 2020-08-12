@@ -5,18 +5,20 @@ using ConsoleEShop.BLL;
 using ConsoleEShop.DAL;
 using ConsoleEShop.DAL.Entities;
 using ConsoleEShop.DAL.Entities.Enums;
+using ConsoleEShop.PL.Controllers;
+using ConsoleEShop.PL.Management;
 
 namespace ConsoleEShop.PL
 {
     class DefaultMenu
     {
-        private Menu _menu;
-        private readonly ServiceUnitOfWork _services;
+        private readonly Menu _menu;
+        private readonly ControllerUOF _manager;
         private User _user;
-        public DefaultMenu(Menu menu, ServiceUnitOfWork services)
+        public DefaultMenu(Menu menu, ControllerUOF services)
         {
             _menu = menu;
-            _services = services;
+            _manager = services;
         }
         public void Run()
         {
@@ -24,43 +26,38 @@ namespace ConsoleEShop.PL
             switch (Console.ReadLine())
             {
                 case "1":
-                    _services.ProductService.ProductView();
+                    _manager.ProductManager.ProductView();
                     _menu.Invoke();
                     break;
                 case "2":
-                    _services.ProductService.Search();
+                    _manager.ProductManager.Search();
                     _menu.Invoke();
                     break;
                 case "3":
-                    _user = _services.AccountService.Login();
-
-                    switch (_user.Type)
+                    try
                     {
-                        case UserType.User:
-                            _menu(1);
-                            break;
-                        case UserType.Admin:
-                            _menu(2);
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
+                        _user = _manager.AccountManager.Login();
                     }
-                    _menu?.Invoke();
+                    catch (UserInputException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        _menu?.Invoke();
+                        break;
+                    }
+                    _menu?.Invoke(_user);
                     break;
                 case "4":
-                    _user = _services.AccountService.Register();
-                    switch (_user.Type)
+                    try
                     {
-                        case UserType.User:
-                            _menu(1);
-                            break;
-                        case UserType.Admin:
-                            _menu(2);
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
+                        _user = _manager.AccountManager.Register();
                     }
-                    _menu?.Invoke();
+                    catch (UserInputException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        _menu?.Invoke();
+                        break;
+                    }
+                    _menu?.Invoke(_user);
                     break;
                 default: break;
             }

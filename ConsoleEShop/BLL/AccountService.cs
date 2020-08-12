@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ConsoleEShop.DAL;
 using ConsoleEShop.DAL.Entities;
@@ -6,58 +7,50 @@ using ConsoleEShop.DAL.Entities.Enums;
 using ConsoleEShop.DAL.Interfaces;
 
 namespace ConsoleEShop.BLL
-{
-    public class AccountService : Iservice
+{/// <summary>
+/// This class 
+/// </summary>
+    public class AccountService
     {
-        public AccountService(CollectionUnitOfWork unitOfWork)
+        public AccountService(IRepositoryUnitOfWork unitOfWork)
         {
             _repository = unitOfWork.Users;
         }
-        
+
         private readonly IRepository<User> _repository;
 
-
-        public User Login()
+        public User Login(string userName)
         {
-            var user = _repository.GetItem(Console.ReadLine());
-            return user ?? throw new ArgumentException("Wrong username");
+            if (userName == string.Empty) throw new UserInputException("Username can't be empty");
+            var user = _repository.GetItem(userName);
+            return user ?? throw new UserInputException("There's no user with this username");
         }
 
-        public User Register()
+
+        public User Register(string userName)
         {
-            Console.WriteLine("Enter your username");
-            var userName = Console.ReadLine();
-            if(_repository.GetItem(userName) != null) throw new ArgumentException("Username already exist");
-            _repository.AddItem(new User(userName, UserType.User, _repository.GetItemList().Count()));
+            if (_repository.GetItem(userName) != null) throw new UserInputException("Username already exist");
+            _repository.AddItem(new User(userName, UserType.User, _repository.ItemCount++));
             return _repository.GetItem(userName);
         }
 
-        public void ChangeData(User user)
+        public bool IsExist(string userName)
         {
-            if (user.Type == UserType.User)
-            {
-                Console.WriteLine("Enter new username: ");
-                var newUserName = Console.ReadLine() ?? throw new ArgumentException("Username can't be empty");
-                user.UserName = newUserName;
-            }
-            else
-            {
-                Console.WriteLine("Enter user's name: ");
-                var userName = Console.ReadLine() ?? throw new ArgumentException("Username can't be empty");
-                var targetUser = _repository.GetItem(userName);
-                Console.WriteLine("Enter new username: ");
-                var newUserName = Console.ReadLine() ?? throw new ArgumentException("Username can't be empty");
-                targetUser.UserName = newUserName;
-            }
+            return _repository.GetItem(userName) != null;
         }
 
-        public void ViewUserData()
+        public void ChangeData(string userName, string newUserName, UserType userType)
         {
-            var result = _repository.GetItemList();
-            foreach (var user in result)
-            {
-                Console.WriteLine(user);
-            }
+            var user = _repository.GetItem(userName);
+            if (newUserName == string.Empty) throw new UserInputException("Username can't be empty");
+            if (_repository.GetItem(newUserName) != null) throw new UserInputException("Username already exist");
+            user.UserName = newUserName;
+            user.Type = userType;
+        }
+
+        public IEnumerable<User> ViewUserData()
+        {
+            return _repository.GetItemList();
         }
     }
 }
